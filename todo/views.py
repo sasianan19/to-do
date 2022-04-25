@@ -54,9 +54,7 @@ class TodoDetailView(View):
         if 'complete' in request.POST:
              form = TaskForm(request.POST)
              if form.is_valid():
-                task_description = form.cleaned_data['description']
                 task.update(completed = True)
-                
 
         # "redirect" to the todo homepage
         return redirect('todo_list')
