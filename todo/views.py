@@ -48,3 +48,16 @@ class TodoDetailView(View):
 
         # "redirect" to the todo homepage
         return redirect('todo_list')
+
+    def post(self, request, task_id):
+        task = Task.objects.filter(id=task_id)
+        if 'complete' in request.POST:
+             form = TaskForm(request.POST)
+             if form.is_valid():
+                task_description = form.cleaned_data['description']
+                task.update(completed = True)
+                
+
+        # "redirect" to the todo homepage
+        return redirect('todo_list')
+            
