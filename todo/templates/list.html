@@ -15,7 +15,9 @@
 
 <h3>Complete:</h3>
 <ul>
-    {}
-        <li></li>
-    {}
+    {% for task in tasks %}
+    {% if task.completed == 1 %}
+        <li><a href="{%url 'task' task.id %}">{{ task.description }}</a></li>
+    {% endif %}
+    {% endfor %}
 </ul>
