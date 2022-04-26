@@ -1,0 +1,17 @@
+<h1>Notes to self</h1>
+
+<form action="{% url 'notes' %}" method="POST">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" name="create" value="Create" />
+</form>
+
+
+<ol>
+    {% for note in notes %}
+        <li><a href="{% url 'notes'%}">{{ note.text }}</a></li>
+    {% endfor %}
+</ol>
+
+
+<a href="{% url 'todo_list' %}">Go back to task page</a>

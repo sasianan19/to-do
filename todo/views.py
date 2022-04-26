@@ -1,8 +1,9 @@
+from urllib.parse import _NetlocResultMixinBytes
 from django.shortcuts import render, redirect
 from django.views import View
 
-from todo.models import Task
-from todo.forms import TaskForm
+from todo.models import Task, Note
+from todo.forms import TaskForm, NoteForm
 
 
 class TodoListView(View):
@@ -59,3 +60,24 @@ class TodoDetailView(View):
         # "redirect" to the todo homepage
         return redirect('todo_list')
             
+
+
+class NoteView(View):
+    def get(self, request):
+        '''GET the todo list homepage, listing all tasks in reverse order that they were created'''
+        notes = Note.objects.all().order_by('text')
+        form = NoteForm()
+
+        return render(
+            request=request, template_name = 'notes.html', context = {'notes': notes, 'form': form}
+        )
+
+    def post(self, request):
+        '''POST the data in the from submitted by the user, creating a new task in the todo list'''
+        form=NoteForm(request.POST)
+        if form.is_valid():
+            note_text = form.cleaned_data['text']
+            Note.objects.create(text=note_text)
+
+        # "redirect" to the todo homepage
+        return redirect('notes')
